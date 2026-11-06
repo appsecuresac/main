@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>App Secure SAC | Soluciones Tecnológicas, Software y Automatización</title>
+    
+    <!-- PWA & Mobile Web App Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="App Secure">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-subtle: #f1f5f9;
+            
+            --primary-blue: #1e40af;
+            --primary-blue-light: #2563eb;
+            --accent-purple: #7c3aed;
+            --accent-purple-light: #9333ea;
+            
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --text-light: #64748b;
+            
+            --border-color: #e2e8f0;
+            --border-hover: #cbd5e1;
+            
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            --gradient-subtle: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(124, 58, 237, 0.05) 100%);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+
+            /* Mobile SafeArea / Notch Variables */
+            --sat: env(safe-area-inset-top, 0px);
+            --sab: env(safe-area-inset-bottom, 0px);
+            --sal: env(safe-area-inset-left, 0px);
+            --sar: env(safe-area-inset-right, 0px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: var(--sat);
+            padding-bottom: calc(65px + var(--sab)); /* Space for mobile bottom bar */
+        }
+
+        @media (min-width: 1025px) {
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            padding-left: max(1.5rem, var(--sal));
+            padding-right: max(1.5rem, var(--sar));
+        }
+
+        /* --- Header Navigation --- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s;
+            padding-top: var(--sat);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .brand-logo-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-box-nav {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 4px 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo-box-nav img {
+            height: 36px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-text-header {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--primary-blue);
+            line-height: 1.1;
+        }
+
+        .brand-sub {
+            font-size: 0.675rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue-light);
+        }
+
+        .btn-cta-nav {
+            background: var(--gradient-primary);
+            color: #ffffff !important;
+            padding: 0.65rem 1.4rem;
+            border-radius: 30px;
+            font-weight: 700 !important;
+            font-size: 0.875rem !important;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+            transition: transform 0.2s, box-shadow 0.2s !important;
+        }
+
+        .btn-cta-nav:active {
+            transform: scale(0.96);
+        }
+
+        /* --- Mobile Navigation Drawer (iOS/Android) --- */
+        .mobile-menu-btn {
+            display: none;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 0.75rem;
+            border-radius: 10px;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 320px;
+            height: 100vh;
+            background: #ffffff;
+            z-index: 2000;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: calc(2rem + var(--sat)) 1.5rem calc(2rem + var(--sab));
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .mobile-drawer.active {
+            right: 0;
+        }
+
+        .mobile-drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 1999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-drawer-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .drawer-close {
+            background: var(--bg-subtle);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .drawer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .drawer-links a {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* --- Native Bottom Tab Bar for iOS / Android --- */
+        .bottom-nav-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid var(--border-color);
+            z-index: 1500;
+            padding-bottom: var(--sab);
+        }
+
+        .bottom-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            height: 60px;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.65rem;
+            font-weight: 600;
+            gap: 2px;
+            transition: color 0.2s;
+        }
+
+        .bottom-nav-item.active, .bottom-nav-item:active {
+            color: var(--primary-blue-light);
+        }
+
+        .bottom-nav-icon {
+            font-size: 1.1rem;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 3rem 0 2rem;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .badge-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(37, 99, 235, 0.08);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            padding: 0.4rem 1.1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary-blue-light);
+            margin-bottom: 1.25rem;
+        }
+
+        .hero h1 {
+            font-size: 3.25rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+            color: var(--text-main);
+        }
+
+        .hero h1 span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 550px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: #ffffff;
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: all 0.2s;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-secondary:active {
+            background: var(--bg-subtle);
+        }
+
+        /* --- Featured Brand Showcase Card --- */
+        .hero-brand-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            text-align: center;
+        }
+
+        .logo-display-box {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .logo-display-box img {
+            max-width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        .hero-brand-info h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        .hero-brand-info p {
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            font-weight: 700;
+            margin-top: 0.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Stats Banner --- */
+        .stats-banner {
+            background: var(--gradient-primary);
+            color: #ffffff;
+            padding: 2.5rem 0;
+            margin-top: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-item h4 {
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
+
+        .stat-item p {
+            font-size: 0.825rem;
+            opacity: 0.9;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Services Section --- */
+        .section {
+            padding: 4.5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .card-service {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-service:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .service-icon-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: var(--gradient-subtle);
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-service h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+        }
+
+        .card-service p {
+            color: var(--text-muted);
+            font-size: 0.925rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .card-link {
+            color: var(--primary-blue-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* --- About Section --- */
+        .about-box {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: var(--shadow-md);
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.925rem;
+        }
+
+        .features-list li span {
+            color: var(--primary-blue-light);
+            font-size: 1.1rem;
+        }
+
+        .about-cta-card {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .about-cta-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+        }
+
+        .about-cta-card p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 1.25rem;
+        }
+
+        /* --- Privacy Policy Section --- */
+        .privacy-box {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .privacy-content h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .privacy-content h3:first-of-type {
+            margin-top: 0;
+        }
+
+        .privacy-content p, .privacy-content ul {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .privacy-content ul {
+            padding-left: 1.25rem;
+        }
+
+        .privacy-content li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* --- Contact Section --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 2rem;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .contact-info {
+            padding: 2.5rem;
+            background: var(--bg-subtle);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .contact-info h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        .contact-info p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 0.925rem;
+        }
+
+        .c-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .c-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .c-details span {
+            display: block;
+            font-size: 0.725rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .c-details a, .c-details strong {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .contact-form {
+            padding: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-blue-light);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea.form-input {
+            height: 110px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+
+            font-size: 0.825rem;
+            color: var(--text-muted);
+        }
+
+        .checkbox-group input {
+            margin-top: 0.2rem;
+            cursor: pointer;
+        }
+
+        .checkbox-group a {
+            color: var(--primary-blue-light);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--gradient-primary);
+            color: #ffffff;
+            padding: 0.95rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.975rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+            transition: all 0.2s;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* --- WhatsApp Floating Button --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: calc(80px + var(--sab));
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background-color: #25d366;
+            color: #ffffff;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 28px;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        @media (min-width: 1025px) {
+            .whatsapp-float {
+                bottom: 30px;
+                right: 30px;
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        .whatsapp-float:active {
+            transform: scale(0.9);
+        }
+
+        /* --- Footer --- */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0 2rem;
+            background: #ffffff;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand h4 {
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links h5 {
+            color: var(--text-main);
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-blue-light);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* --- Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 100%;
+            padding: 2.5rem;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: var(--bg-subtle);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* --- Media Queries for Responsive Breakpoints --- */
+        @media (max-width: 1024px) {
+            .hero { 
+                grid-template-columns: 1fr; 
+                text-align: center;
+                gap: 2.5rem;
+                padding: 2rem 0;
+            }
+            .hero p { margin: 0 auto 2rem; }
+            .hero-btns { justify-content: center; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+            .about-box { grid-template-columns: 1fr; text-align: center; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .contact-info { border-right: none; border-bottom: 1px solid var(--border-color); }
+            
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .bottom-nav-bar { display: block; }
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 2.25rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+            
+            .hero-btns {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+
+            .contact-info, .contact-form, .about-box, .privacy-box {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Nav -->
+    <header>
+        <div class="container nav-wrapper">
+            <a href="#" class="brand-logo-header">
+                <div class="logo-box-nav">
+                    <img src="logo.png" alt="App Secure SAC" onerror="this.style.display='none'">
+                </div>
+                <div class="brand-text-header">
+                    <span class="brand-title">APP SECURE SAC</span>
+                    <span class="brand-sub">Soluciones Tecnológicas</span>
+                </div>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#politicas">Políticas</a></li>
+                <li><a href="#contacto" class="btn-cta-nav">Contactar</a></li>
+            </ul>
+
+            <button class="mobile-menu-btn" id="openDrawer" aria-label="Abrir Menú">☰</button>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer for iOS/Android -->
+    <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div>
+            <div class="drawer-header">
+                <span class="brand-title">APP SECURE SAC</span>
+                <button class="drawer-close" id="closeDrawer">✕</button>
+            </div>
+            <ul class="drawer-links">
+                <li><a href="#inicio" class="drawer-item">Inicio</a></li>
+                <li><a href="#servicios" class="drawer-item">Servicios</a></li>
+                <li><a href="#nosotros" class="drawer-item">Nosotros</a></li>
+                <li><a href="#politicas" class="drawer-item">Políticas de Privacidad</a></li>
+                <li><a href="#contacto" class="drawer-item">Contacto</a></li>
+            </ul>
+        </div>
+        <div>
+            <a href="https://wa.me/51948078003" target="_blank" class="btn-primary" style="width: 100%;">💬 Escribir al WhatsApp</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="container hero">
+        <div class="hero-left">
+            <div class="badge-hero">
+                ⚡ SOFTWARE & AUTOMATIZACIÓN DE NEGOCIOS
+            </div>
+            <h1>Desarrollo de Software y <span>Automatización Inteligente</span></h1>
+            <p>Optimizamos los procesos de su empresa con software a medida, licenciamiento oficial y soluciones tecnológicas integrales de alta calidad.</p>
+            <div class="hero-btns">
+                <a href="#contacto" class="btn-primary">Solicitar Cotización</a>
+                <a href="https://wa.me/51948078003" target="_blank" class="btn-secondary">Escribir al WhatsApp</a>
+            </div>
+        </div>
+
+        <div class="hero-brand-card">
+            <div class="logo-display-box">
+                <img src="logo.png" alt="App Secure SAC Logo" onerror="this.src='https://via.placeholder.com/350x220/ffffff/1e40af?text=App+Secure+SAC'">
+            </div>
+            <div class="hero-brand-info">
+                <h3>App Secure S.A.C.</h3>
+                <p>Soluciones Tecnológicas</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Banner -->
+    <div class="stats-banner">
+        <div class="container stats-grid">
+            <div class="stat-item">
+                <h4>100%</h4>
+                <p>Garantía de Software</p>
+            </div>
+            <div class="stat-item">
+                <h4>+50%</h4>
+                <p>Ahorro en Tiempos Operativos</p>
+            </div>
+            <div class="stat-item">
+                <h4>24/7</h4>
+                <p>Soporte Técnico Especializado</p>
+            </div>
+            <div class="stat-item">
+                <h4>B2B</h4>
+                <p>Proyectos a Medida</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <section id="servicios" class="section container">
+        <div class="section-header">
+            <h2>Nuestros Servicios</h2>
+            <p>Soluciones diseñadas para impulsar la eficiencia y transformación digital de su empresa.</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="card-service">
+                <div>
+                    <div class="service-icon-box">💻</div>
+                    <h3>Desarrollo de Software</h3>
+                    <p>Diseño y construcción de aplicaciones web, móviles (iOS y Android) y sistemas corporativos adaptados a la medida de sus operaciones.</p>
+                </div>
+                <a href="#contacto" class="card-link">Consultar Servicio →</a>
+            </div>
+
+            <div class="card-service">
+                <div>
+                    <div class="service-icon-box">⚙️</div>
+                    <h3>Automatización de Negocios</h3>
+                    <p>Integración de procesos, conexión mediante APIs y eliminación de tareas repetitivas para maximizar el rendimiento empresarial.</p>
+                </div>
+                <a href="#contacto" class="card-link">Consultar Servicio →</a>
+            </div>
+
+            <div class="card-service">
+                <div>
+                    <div class="service-icon-box">🛒</div>
+                    <h3>Venta y Licenciamiento</h3>
+                    <p>Comercialización, implementación y soporte oficial de herramientas de software para asegurar la infraestructura de su empresa.</p>
+                </div>
+                <a href="#contacto" class="card-link">Consultar Servicio →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="nosotros" class="section container">
+        <div class="about-box">
+            <div class="about-text">
+                <h2>Impulsamos la Operatividad de su Empresa</h2>
+                <p>En <strong>App Secure SAC</strong> desarrollamos herramientas tecnológicas orientadas a potenciar la rentabilidad, seguridad y velocidad operativa de los negocios.</p>
+                <ul class="features-list">
+                    <li><span>✓</span> Arquitectura de software moderna y escalable.</li>
+                    <li><span>✓</span> Integración limpia con plataformas existentes.</li>
+                    <li><span>✓</span> Acompañamiento continuo y soporte profesional.</li>
+                </ul>
+            </div>
+            <div class="about-cta-card">
+                <h3>¿Requiere una evaluación técnica?</h3>
+                <p>Póngase en contacto con nuestros ingenieros para analizar la mejor solución para su negocio.</p>
+                <a href="#contacto" class="btn-primary">Agendar Consulta</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dedicated Privacy Policy Section -->
+    <section id="politicas" class="section container">
+        <div class="section-header">
+            <h2>Políticas de Privacidad</h2>
+            <p>Transparencia y protección de sus datos personales conforme a la ley.</p>
+        </div>
+
+        <div class="privacy-box">
+            <div class="privacy-content">
+                <h3>1. Identificación del Responsable</h3>
+                <p>
+                    <strong>APP SECURE S.A.C.</strong>, empresa legalmente constituida en el Perú, en adelante "App Secure", con correo de contacto principal <a href="mailto:appsecure@gmail.com" style="color: var(--primary-blue-light);">appsecure@gmail.com</a> y teléfono de atención <a href="https://wa.me/51948078003" style="color: var(--primary-blue-light);">+51 948 078 003</a>, es la titular de esta plataforma digital y responsable del tratamiento de los datos personales proporcionados por los usuarios.
+                </p>
+
+                <h3>2. Marco Legal Aplicable</h3>
+                <p>
+                    Cumplimos estrictamente con la <strong>Ley N° 29733 (Ley de Protección de Datos Personales del Perú)</strong> y su Reglamento (Decreto Supremo N° 003-2013-JUS), asegurando la confidencialidad, integridad y seguridad de la información.
+                </p>
+
+                <h3>3. Datos que Recopilamos</h3>
+                <p>A través de nuestros formularios y canales de comunicación directos, podemos recolectar:</p>
+                <ul>
+                    <li>Nombre completo o Razón Social.</li>
+                    <li>Correo electrónico corporativo o personal.</li>
+                    <li>Número de teléfono / WhatsApp.</li>
+                    <li>Información descriptiva sobre sus requerimientos de software y automatización.</li>
+                </ul>
+
+                <h3>4. Finalidad del Tratamiento</h3>
+                <p>Los datos recopilados son utilizados exclusivamente para:</p>
+                <ul>
+                    <li>Atender solicitudes de información, proyectos y cotizaciones técnicas.</li>
+                    <li>Establecer contacto comercial directo y brindar soporte técnico sobre nuestros servicios de software.</li>
+                    <li>Emitir propuestas formales y comprobantes de pago o contratos B2B.</li>
+                </ul>
+
+                <h3>5. Derechos ARCO (Acceso, Rectificación, Cancelación y Oposición)</h3>
+                <p>
+                    Usted puede ejercer sus derechos ARCO en cualquier momento enviando un correo a <strong>appsecure@gmail.com</strong> indicando su solicitud. Responderemos en los plazos legales establecidos.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="section container">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div>
+                    <h3>Contáctanos</h3>
+                    <p>Estamos listos para atender sus requerimientos y responder a sus consultas de forma inmediata.</p>
+                    
+                    <div class="c-item">
+                        <div class="c-icon">📱</div>
+                        <div class="c-details">
+                            <span>Teléfono / WhatsApp</span>
+                            <a href="https://wa.me/51948078003" target="_blank">+51 948 078 003</a>
+                        </div>
+                    </div>
+
+                    <div class="c-item">
+                        <div class="c-icon">✉️</div>
+                        <div class="c-details">
+                            <span>Correo Electrónico</span>
+                            <a href="mailto:appsecure@gmail.com">appsecure@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <div class="c-item">
+                        <div class="c-icon">📍</div>
+                        <div class="c-details">
+                            <span>Ubicación</span>
+                            <strong>Perú</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="font-size: 0.8rem; color: var(--text-light); margin-top: 1rem;">
+                    App Secure SAC © 2026. Todos los derechos reservados.
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form onsubmit="event.preventDefault(); alert('¡Gracias por escribirnos! Nos pondremos en contacto a la brevedad.');">
+                    <div class="form-group">
+                        <label>Nombre Completo / Razón Social *</label>
+                        <input type="text" class="form-input" placeholder="Ej. Mi Empresa S.A.C." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo Electrónico *</label>
+                        <input type="email" class="form-input" placeholder="correo@ejemplo.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono de Contacto</label>
+                        <input type="tel" class="form-input" placeholder="Ej. 9480078003">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mensaje o Requerimiento *</label>
+                        <textarea class="form-input" placeholder="Describa el software o servicio que requiere..." required></textarea>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="termsCheck" required>
+                        <label for="termsCheck">He leído y acepto las <a id="openModalFromForm">Políticas de Privacidad</a> de App Secure SAC.</label>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Enviar Consulta</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Privacy -->
+    <div id="modalPrivacy" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h3 style="margin-bottom: 1rem; color: var(--primary-blue); font-size: 1.4rem;">POLÍTICA DE PRIVACIDAD DE APP SECURE S.A.C.</h3>
+            <div style="color: var(--text-muted); font-size: 0.925rem; line-height: 1.6;">
+                <p style="margin-bottom: 0.75rem;">
+                    En <strong>App Secure S.A.C.</strong> tratamos sus datos personales conforme a la Ley N° 29733 (Ley de Protección de Datos Personales del Perú) y su reglamento.
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>Uso de la Información:</strong> Los datos suministrados a través de nuestros formularios o canales institucionales (teléfono: +51 948 078 003, correo: appsecure@gmail.com) serán utilizados exclusivamente para la atención de consultas, elaboración de cotizaciones de software y gestión contractual.
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>Protección y Confidencialidad:</strong> No compartimos ni vendemos sus datos personales a terceros sin su consentimiento expreso.
+                </p>
+                <p>
+                    <strong>Derechos ARCO:</strong> Puede solicitar la rectificación, cancelación u oposición al uso de sus datos en cualquier momento enviando un mensaje a <strong>appsecure@gmail.com</strong>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/51948078003" class="whatsapp-float" target="_blank" title="Escribir por WhatsApp" aria-label="WhatsApp">
+        💬
+    </a>
+
+    <!-- Bottom Navigation Bar for Mobile (iOS & Android) -->
+    <nav class="bottom-nav-bar">
+        <div class="bottom-nav-grid">
+            <a href="#inicio" class="bottom-nav-item active">
+                <span class="bottom-nav-icon">🏠</span>
+                <span>Inicio</span>
+            </a>
+            <a href="#servicios" class="bottom-nav-item">
+                <span class="bottom-nav-icon">⚙️</span>
+                <span>Servicios</span>
+            </a>
+            <a href="#nosotros" class="bottom-nav-item">
+                <span class="bottom-nav-icon">🏢</span>
+                <span>Nosotros</span>
+            </a>
+            <a href="#politicas" class="bottom-nav-item">
+                <span class="bottom-nav-icon">🛡️</span>
+                <span>Políticas</span>
+            </a>
+            <a href="#contacto" class="bottom-nav-item">
+                <span class="bottom-nav-icon">✉️</span>
+                <span>Contacto</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h4>APP SECURE SAC</h4>
+                    <p>Desarrollo de software a medida, automatización empresarial y licenciamiento de soluciones tecnológicas.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h5>Navegación</h5>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#nosotros">Nosotros</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li><a href="#politicas">Políticas de Privacidad</a></li>
+                        <li><a href="#" id="openModal">Ver Modal Privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>&copy; 2026 App Secure SAC. Todos los derechos reservados.</div>
+                <div>Perú</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Drawer Controls
+        const openDrawerBtn = document.getElementById('openDrawer');
+        const closeDrawerBtn = document.getElementById('closeDrawer');
+        const mobileDrawer = document.getElementById('mobileDrawer');
+        const drawerOverlay = document.getElementById('drawerOverlay');
+        const drawerItems = document.querySelectorAll('.drawer-item');
+
+        function toggleDrawer(open) {
+            if(open) {
+                mobileDrawer.classList.add('active');
+                drawerOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileDrawer.classList.remove('active');
+                drawerOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        openDrawerBtn.addEventListener('click', () => toggleDrawer(true));
+        closeDrawerBtn.addEventListener('click', () => toggleDrawer(false));
+        drawerOverlay.addEventListener('click', () => toggleDrawer(false));
+        drawerItems.forEach(item => item.addEventListener('click', () => toggleDrawer(false)));
+
+        // Privacy Modal
+        const modal = document.getElementById('modalPrivacy');
+        const openBtn = document.getElementById('openModal');
+        const openModalFormBtn = document.getElementById('openModalFromForm');
+        const closeBtn = document.getElementById('closeModal');
+
+        function showPrivacyModal(e) {
+            if (e) e.preventDefault();
+            modal.style.display = 'flex';
+        }
+
+        openBtn.addEventListener('click', showPrivacyModal);
+        if (openModalFormBtn) openModalFormBtn.addEventListener('click', showPrivacyModal);
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        });
+
+        // Bottom Nav Active State Handler
+        const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+        bottomNavItems.forEach(item => {
+            item.addEventListener('click', () => {
+                bottomNavItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
